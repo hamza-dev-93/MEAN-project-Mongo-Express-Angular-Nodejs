@@ -1,16 +1,42 @@
 const mongoose = require('mongoose');
-var userSchema = now mongoose.Schema({
+const bcrypt = require('bcryptjs');
+
+var userSchema = new mongoose.Schema({
     fullName: {
-        type: String
+        type: String,
+        required: 'full name can t be empty'
     },
     email: {
-        type: String
+        type: String,
+        required: 'Email can t be empty',
+        unique: true
     },
     password: {
-        type: String
+        type: String,
+        required: 'password cant be empty',
+        minlength: [4, 'Password must be atleast 4 charectere long']
+        
     },
     saltSecret: String
     
+});
+
+//custom validation for email
+userSchema.path('email').validate((val) => {
+    emailRegex =/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailRegex.test(val);
+}, 'Invalide email');
+
+//events
+userSchema.pre('save', function(next){
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(this.password, salt, (err, hash) => {
+
+            this.password = hash;
+            this.saltSecret = salt;
+            next();
+        });
+    });
 });
 
 mongoose.model('User', userSchema);

@@ -4,7 +4,7 @@
   "description": "MEAN Stack User Registration Using Node JS",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
   "author": "hamza",
   "license": "ISC",
