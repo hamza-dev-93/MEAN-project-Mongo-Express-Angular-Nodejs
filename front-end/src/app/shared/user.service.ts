@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { environment } from '../../environments/environment';
 
 import { User } from './user.model';
 
@@ -7,11 +10,17 @@ import { User } from './user.model';
 })
 export class UserService {
 
-  selectUser: User = {
-    fullName: 'hamza',
-    email: 'bh@gmail.com',
+  selectedUser: User = {
+    fullName: '',
+    email: '',
     password: ''
+  };
+
+  constructor(private http: HttpClient ) { }
+
+  postUser(user: User){
+    return this.http.post(environment.apiBaseUrl+ '/register', user);
   }
 
-  constructor() { }
+      
 }
