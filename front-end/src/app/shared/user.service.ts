@@ -19,7 +19,9 @@ export class UserService {
   constructor(private http: HttpClient ) { }
 
   postUser(user: User){
-    return this.http.post(environment.apiBaseUrl+ '/register', user);
+    console.log('hamza environment::  '+environment);
+    //environment.apiBaseUrl
+    return this.http.post('http://localhost:3000/api' + '/register', user);
   }
 
       

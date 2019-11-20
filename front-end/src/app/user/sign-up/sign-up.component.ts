@@ -26,12 +26,14 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(form: NgForm){
     return this.userService.postUser(form.value).subscribe(
-      res => { this.showSuccessMessage = true;
-      setTimeout(() =>this.showSuccessMessage = false, 5000 );
-      this.resetForm(form);
+      res => { 
+              this.showSuccessMessage = true;
+              setTimeout(() =>this.showSuccessMessage = false, 5000 );
+              this.resetForm(form);
       },
-      err => { if(err.status === 422){ this.serverErrorMessage = err.error.join('<br/>'); }
-    else this.serverErrorMessage = 'Somthing went wrong . please contact admin';
+      err => {
+          if(err.status === 422){ this.serverErrorMessage = err.error.join('<br/>'); }
+          else this.serverErrorMessage = 'Somthing went wrong . please contact admin';
    }
     ); 
   }
